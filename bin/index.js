@@ -27,11 +27,11 @@ yargs
 		})
 	)
 	.detectLocale(false)
-	.command("config", "configuration", () => {
-		yargs.command("auth", "authentication", () => {
+	.command("config", "Configuration", () => {
+		yargs.command("auth", "Authentication", () => {
 			yargs.command(
 				"set <apiKey>",
-				"set an OpenAI API key",
+				"Set an OpenAI API key",
 				() => {
 					yargs.positional("apiKey", {
 						type: "string",
@@ -41,7 +41,7 @@ yargs
 					configStore.set("OPENAI_API_KEY", argv.apiKey);
 				}
 			);
-			yargs.command("get", "get an OpenAI API key", () => {
+			yargs.command("get", "Get an OpenAI API key", () => {
 				const key = configStore.get("OPENAI_API_KEY");
 
 				if (key === undefined) {
@@ -52,7 +52,7 @@ yargs
 					console.log(key);
 				}
 			});
-			yargs.command("delete", "delete an OpenAI API key", () => {
+			yargs.command("delete", "Delete an OpenAI API key", () => {
 				const key = configStore.get("OPENAI_API_KEY");
 
 				if (key === undefined) {
@@ -72,27 +72,27 @@ yargs
 			yargs.option("q", {
 				alias: "question",
 				type: "string",
-				describe: "the question you want to ask ChatGPT",
+				describe: "The question you want to ask ChatGPT",
 				demandOption: true,
 			});
 			yargs.option("t", {
 				alias: "temperature",
 				type: "number",
-				describe: "the temperature you want to set",
+				describe: "The temperature you want to set",
 				demandOption: false,
 				default: 0.5,
 			});
 			yargs.option("m", {
 				alias: "max-tokens",
 				type: "number",
-				describe: "the max. number of tokens you want to use",
+				describe: "The max. number of tokens you want to use",
 				demandOption: false,
 				default: 256,
 			});
 			yargs.option("d", {
 				alias: "model",
 				type: "string",
-				describe: "the model you want to use",
+				describe: "The model you want to use",
 				demandOption: false,
 				default: "text-davinci-003",
 			});

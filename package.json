@@ -1,6 +1,6 @@
 {
 	"name": "@leurs247/chatgpt-cli",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"bin": {
 		"chatgpt": "./bin/index.js"
 	},
