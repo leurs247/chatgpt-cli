@@ -1,6 +1,6 @@
 {
-	"name": "chatgpt-cli",
-	"version": "0.1.0",
+	"name": "@leurs247/chatgpt-cli",
+	"version": "0.1.1",
 	"main": "index.js",
 	"bin": {
 		"chatgpt": "./bin/index.js"
@@ -13,5 +13,9 @@
 		"configstore": "^5.0.1",
 		"openai": "^3.2.1",
 		"yargs": "^17.7.2"
+	},
+	"repository": "git://github.com/leurs247/chatgpt-cli.git",
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com"
 	}
 }
