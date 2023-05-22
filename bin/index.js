@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const path = require("path");
 const yargs = require("yargs");
 const chalk = require("chalk");
 const boxen = require("boxen");
@@ -7,7 +8,9 @@ const fs = require("fs");
 const Configstore = require("configstore");
 const { Configuration, OpenAIApi } = require("openai");
 
-const packageJson = JSON.parse(fs.readFileSync("../package.json", "utf8"));
+const packageJson = JSON.parse(
+	fs.readFileSync(path.resolve("../package.json"), "utf8")
+);
 const configStore = new Configstore(packageJson.name);
 
 const configuration = new Configuration({
