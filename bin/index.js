@@ -9,7 +9,7 @@ const Configstore = require("configstore");
 const { Configuration, OpenAIApi } = require("openai");
 
 const packageJson = JSON.parse(
-	fs.readFileSync(path.resolve("../package.json"), "utf8")
+	fs.readFileSync(path.join(__dirname, "../package.json"), "utf8")
 );
 const configStore = new Configstore(packageJson.name);
 
