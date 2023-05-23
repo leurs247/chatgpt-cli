@@ -1,20 +1,34 @@
 {
 	"name": "@leurs247/chatgpt-cli",
-	"version": "0.1.5",
+	"version": "0.1.0",
+	"description": "Simpel CLI-tool to interact with ChatGPT",
 	"bin": {
 		"chatgpt": "./bin/index.js"
 	},
-	"author": "Sam Leurs <samleurs@gmail.com>",
-	"license": "ISC",
+	"author": {
+		"name": "leurs247",
+		"email": "samleurs@gmail.com",
+		"url": "https://samleurs.be"
+	},
+	"repository": "git://github.com/leurs247/chatgpt-cli.git",
+	"license": "MIT",
 	"dependencies": {
 		"boxen": "^5.1.2",
 		"chalk": "^4.1.2",
+		"clipboardy": "^2.3.0",
 		"configstore": "^5.0.1",
 		"openai": "^3.2.1",
+		"ora": "^5.4.1",
 		"yargs": "^17.7.2"
 	},
-	"repository": "git://github.com/leurs247/chatgpt-cli.git",
-	"publishConfig": {
-		"registry": "https://npm.pkg.github.com"
-	}
+	"keywords": [
+		"cli",
+		"chatgpt",
+		"openai",
+		"chat",
+		"ai"
+	],
+	"files": [
+		"bin/index.js"
+	]
 }

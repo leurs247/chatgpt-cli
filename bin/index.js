@@ -4,6 +4,9 @@ const path = require("path");
 const yargs = require("yargs");
 const chalk = require("chalk");
 const boxen = require("boxen");
+const ora = require("ora");
+const clipboardy = require("clipboardy");
+
 const fs = require("fs");
 const Configstore = require("configstore");
 const { Configuration, OpenAIApi } = require("openai");
@@ -27,8 +30,8 @@ yargs
 		})
 	)
 	.detectLocale(false)
-	.command("config", "Configuration", () => {
-		yargs.command("auth", "Authentication", () => {
+	.command("config", "Configuration options", () => {
+		yargs.command("auth", "Authentication options", () => {
 			yargs.command(
 				"set <apiKey>",
 				"Set an OpenAI API key",
@@ -67,34 +70,35 @@ yargs
 	})
 	.command(
 		"ask",
-		"ask a question to ChatGPT",
+		"Ask a question to ChatGPT",
 		() => {
 			yargs.option("q", {
 				alias: "question",
 				type: "string",
-				describe: "The question you want to ask ChatGPT",
+				describe: "The question you want to ask",
 				demandOption: true,
 			});
 			yargs.option("t", {
 				alias: "temperature",
 				type: "number",
-				describe: "The temperature you want to set",
+				describe: "The temperature you want to set (default = 0.5)",
 				demandOption: false,
 				default: 0.5,
 			});
 			yargs.option("m", {
 				alias: "max-tokens",
 				type: "number",
-				describe: "The max. number of tokens you want to use",
+				describe:
+					"The max. number of tokens you want to use (default = 256)",
 				demandOption: false,
 				default: 256,
 			});
 			yargs.option("d", {
 				alias: "model",
 				type: "string",
-				describe: "The model you want to use",
+				describe: "The model you want to use (default = gpt-3.5-turbo)",
 				demandOption: false,
-				default: "text-davinci-003",
+				default: "gpt-3.5-turbo",
 			});
 		},
 		async (argv) => {
@@ -103,16 +107,60 @@ yargs
 				return;
 			}
 
-			try {
-				const response = await openai.createCompletion({
-					model: argv.d,
-					prompt: argv.q,
-					temperature: argv.t,
-					max_tokens: argv.m,
-				});
+			const spinner = ora({ color: "green" }).start(
+				"Asking to ChatGPT..."
+			);
 
-				console.log(chalk.green(response.data.choices[0].text.trim()));
+			try {
+				switch (argv.d) {
+					default: {
+						const response = await openai.createCompletion({
+							model: argv.d,
+							prompt: argv.q,
+							temperature: argv.t,
+							max_tokens: argv.m,
+						});
+
+						spinner.stop().clear();
+
+						console.log(
+							chalk.green(response.data.choices[0].text.trim())
+						);
+
+						if (argv.copy) {
+							clipboardy.writeSync(
+								response.data.choices[0].text.trim()
+							);
+						}
+						break;
+					}
+					case "gpt-3.5-turbo": {
+						const response = await openai.createChatCompletion({
+							model: argv.d,
+							messages: [{ role: "user", content: argv.q }],
+							temperature: argv.t,
+							max_tokens: argv.m,
+						});
+
+						spinner.stop().clear();
+
+						console.log(
+							chalk.green(
+								response.data.choices[0].message.content.trim()
+							)
+						);
+
+						if (argv.copy) {
+							clipboardy.writeSync(
+								response.data.choices[0].message.content.trim()
+							);
+						}
+						break;
+					}
+				}
 			} catch (err) {
+				spinner.stop().clear();
+
 				console.log(
 					chalk.red(
 						`openai error: ${err.response.data.error.message}`
@@ -121,10 +169,9 @@ yargs
 			}
 		}
 	)
-	.option("verbose", {
+	.option("copy", {
 		type: "boolean",
-		describe: "show logs",
-		demandOption: false,
+		describe: "Copy the output to the clipboard",
 	})
 	.help(true)
 	.parse();
