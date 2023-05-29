@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+require("dotenv").config();
+
 const path = require("path");
 const yargs = require("yargs");
 const chalk = require("chalk");
@@ -14,7 +16,9 @@ const { Configuration, OpenAIApi } = require("openai");
 const packageJson = JSON.parse(
 	fs.readFileSync(path.join(__dirname, "../package.json"), "utf8")
 );
-const configStore = new Configstore(packageJson.name);
+const configStore = new Configstore(packageJson.name, {
+	OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+});
 
 const configuration = new Configuration({
 	apiKey: configStore.get("OPENAI_API_KEY"),
