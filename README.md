@@ -2,27 +2,31 @@
 
 A simple CLI-tool to interact with ChatGPT.
 
-## Commands
+### Installation
+
+```
+npm install -g @leurs247/chatgpt-cli
+```
 
 ### Configuration
+
+Set an OpenAI API key
 
 ```
 chatgpt config auth set <apiKey>
 ```
 
-Set an OpenAI API key
+Get an OpenAI API key
 
 ```
 chatgpt config auth get
 ```
 
-Get an OpenAI API key
+Delete an OpenAI API key
 
 ```
 chatgpt config auth delete
 ```
-
-Delete an OpenAI API key
 
 ### Asking questions
 
